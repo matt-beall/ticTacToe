@@ -50,12 +50,12 @@ int getCellMoveScore(GameBoard gb, int row, int col, Player perspective, Player 
 {
     entries++;
 
-    if(entries > 5)
-        return 0;
+    // if(entries > 5)
+    //     return 0;
 
-    printGameBoard(gb);
+    // printGameBoard(gb);
 
-    printf("Ent: %ld, Try r: %d, c: %d", entries, row, col);
+    // printf("Ent: %ld, Try r: %d, c: %d", entries, row, col);
 
     if(gb.cells[row][col] != PLAYER_NONE)
     {
@@ -93,7 +93,7 @@ int getCellMoveScore(GameBoard gb, int row, int col, Player perspective, Player 
                 return -10;
             break;
         case STATUS_DRAW:
-            return 0;
+            return 6;
             break;
         case STATUS_NONE:
             for(r = 0; r < 3; r++)
@@ -123,7 +123,7 @@ void getComputerPlay(GameBoard gb, Player p, int * row, int * col)
     {
         for(c = 0; c < 3; c++)
         {
-            if(getVictoryStatus(&gb) == STATUS_NONE && gb.cells[r][c] != PLAYER_NONE)
+            if(getVictoryStatus(&gb) == STATUS_NONE && gb.cells[r][c] == PLAYER_NONE)
             {
                 int thisScore;
 
@@ -160,6 +160,8 @@ void clearGameBoard()
 
 void getUserPlay(char* player, int* rowResult, int* colResult)
 {
+    entries = 0;
+
     int i, row, col;
     printf("Player %s, Move: ", player);
     scanf("%d", &i);
@@ -235,6 +237,12 @@ int ticTacToe(bool userFirst)
                     printf("Something Went Wrong\n\r");
                     return 0;
                     break;
+            }
+
+            if(gameBoard.cells[row][col] != PLAYER_NONE)
+            {
+                printf("ERRORRRRRRRR\n\r");
+                return 0;
             }
 
             gameBoard.cells[row][col] = currentPlayer;
